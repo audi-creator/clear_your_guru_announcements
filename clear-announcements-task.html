@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clear Your Guru Announcements</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 30px 20px;
+            background: white;
+            color: #2c3e50;
+            line-height: 1.6;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 12px;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            margin: 0 0 10px 0;
+        }
+
+        .header p {
+            font-size: 18px;
+            margin: 0;
+            opacity: 0.95;
+        }
+
+        .critical-warning {
+            background: #fff3cd;
+            border: 3px solid #ffc107;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .critical-warning h2 {
+            color: #856404;
+            margin: 0 0 15px 0;
+            font-size: 24px;
+        }
+
+        .critical-warning p {
+            color: #856404;
+            margin: 0;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .instructions {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+
+        .instructions h3 {
+            color: #2c3e50;
+            margin: 0 0 20px 0;
+            font-size: 22px;
+        }
+
+        .checklist {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .checklist h3 {
+            color: #2c3e50;
+            margin: 0 0 20px 0;
+            font-size: 22px;
+            text-align: center;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #e0e0e0;
+            transition: all 0.3s;
+        }
+
+        .checklist-item.completed {
+            background: #e8f5e9;
+            border-left-color: #4caf50;
+        }
+
+        .checkbox-container {
+            flex-shrink: 0;
+        }
+
+        .checkbox {
+            width: 28px;
+            height: 28px;
+            border: 3px solid #5B7C99;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            transition: all 0.3s;
+        }
+
+        .checklist-item.completed .checkbox {
+            background: #4caf50;
+            border-color: #4caf50;
+        }
+
+        .checkmark {
+            display: none;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .checklist-item.completed .checkmark {
+            display: block;
+        }
+
+        .checklist-content {
+            flex: 1;
+        }
+
+        .step-number {
+            background: #5B7C99;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .checklist-item.completed .step-number {
+            background: #4caf50;
+        }
+
+        .step-title {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+
+        .step-description {
+            color: #5a6c7d;
+            font-size: 15px;
+            line-height: 1.5;
+        }
+
+        .guru-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #5B7C99;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 10px;
+            transition: transform 0.2s;
+        }
+
+        .guru-link:hover {
+            transform: translateY(-2px);
+        }
+
+        .completion-status {
+            background: #e8f4f8;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .completion-status h3 {
+            color: #2c3e50;
+            margin: 0 0 15px 0;
+            font-size: 20px;
+        }
+
+        .progress-bar {
+            background: #e0e0e0;
+            height: 30px;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .progress-fill {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .completion-message {
+            display: none;
+            background: #4caf50;
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: 600;
+            margin-top: 20px;
+        }
+
+        .completion-message.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🎯 Clear Your Guru Announcements</h1>
+        <p>Complete this task before finishing the course</p>
+    </div>
+
+    <div class="critical-warning">
+        <h2>⚠️ CRITICAL TASK</h2>
+        <p>You must clear all pending announcements in Guru before completing this realignment course. This ensures you've reviewed all current information before returning to active work.</p>
+    </div>
+
+    <div class="completion-status">
+        <h3>Your Progress</h3>
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressBar">0%</div>
+        </div>
+        <p id="progressText" style="color: #5a6c7d; margin: 0;">0 of 4 steps completed</p>
+    </div>
+
+    <div class="checklist">
+        <h3>Follow These Steps to Clear Your Announcements</h3>
+
+        <div class="checklist-item" data-step="1">
+            <div class="checkbox-container">
+                <div class="checkbox" onclick="toggleStep(1)">
+                    <span class="checkmark">✓</span>
+                </div>
+            </div>
+            <div class="checklist-content">
+                <div class="step-number">1</div>
+                <div class="step-title">Open Guru and Go to the Homepage</div>
+                <div class="step-description">
+                    Open Guru and navigate to the homepage. Announcements will appear prominently at the top.
+                    <br>
+                    <a href="https://app.getguru.com/page/0263b223-b462-4940-b472-981e2690084c" target="_blank" class="guru-link">
+                        🔗 Open Guru Homepage
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="checklist-item" data-step="2">
+            <div class="checkbox-container">
+                <div class="checkbox" onclick="toggleStep(2)">
+                    <span class="checkmark">✓</span>
+                </div>
+            </div>
+            <div class="checklist-content">
+                <div class="step-number">2</div>
+                <div class="step-title">Review Each Announcement Thoroughly</div>
+                <div class="step-description">
+                    Click on each announcement to read the full content. Don't just skim - these contain critical policy and procedure updates. Click through to any linked Guru cards and review those as well.
+                </div>
+            </div>
+        </div>
+
+        <div class="checklist-item" data-step="3">
+            <div class="checkbox-container">
+                <div class="checkbox" onclick="toggleStep(3)">
+                    <span class="checkmark">✓</span>
+                </div>
+            </div>
+            <div class="checklist-content">
+                <div class="step-number">3</div>
+                <div class="step-title">Mark Each Announcement as Read</div>
+                <div class="step-description">
+                    For each announcement:
+                    <br>• Scroll all the way to the bottom (the "I read this 👍" button only activates once you've scrolled to the end)
+                    <br>• Click the "I read this 👍" button (this will automatically clear the announcement)
+                </div>
+            </div>
+        </div>
+
+        <div class="checklist-item" data-step="4">
+            <div class="checkbox-container">
+                <div class="checkbox" onclick="toggleStep(4)">
+                    <span class="checkmark">✓</span>
+                </div>
+            </div>
+            <div class="checklist-content">
+                <div class="step-number">4</div>
+                <div class="step-title">Confirm All Announcements Are Cleared</div>
+                <div class="step-description">
+                    Go back to the Guru homepage and verify that the announcement bar at the top is no longer visible. If the bar is gone, you've successfully cleared all announcements!
+                    <br><br>
+                    <strong>💡 Pro Tip:</strong> You can also access announcements by going to "Tasks" in the sidebar and clicking "Announcements" to view or review past announcements.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="completion-message" id="completionMessage">
+        🎉 Excellent! You've completed all steps. Make sure you've actually cleared your announcements in Guru before proceeding with the course.
+    </div>
+
+    <div class="instructions">
+        <h3>📝 Remember:</h3>
+        <p style="margin: 0 0 10px 0;">Once an announcement is published:</p>
+        <ul style="margin: 0; padding-left: 20px; color: #5a6c7d;">
+            <li>The guidance is live</li>
+            <li>Expectations are active</li>
+            <li>Accountability begins immediately (unless otherwise stated)</li>
+        </ul>
+        <p style="margin: 15px 0 0 0; font-weight: 600; color: #2c3e50;">Not reading announcements does not exempt anyone from the enforcement of updated policies.</p>
+    </div>
+
+    <script>
+        let completedSteps = new Set();
+
+        function toggleStep(stepNumber) {
+            const item = document.querySelector(`[data-step="${stepNumber}"]`);
+            
+            if (completedSteps.has(stepNumber)) {
+                completedSteps.delete(stepNumber);
+                item.classList.remove('completed');
+            } else {
+                completedSteps.add(stepNumber);
+                item.classList.add('completed');
+            }
+            
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const total = 4;
+            const completed = completedSteps.size;
+            const percentage = (completed / total) * 100;
+            
+            const progressBar = document.getElementById('progressBar');
+            const progressText = document.getElementById('progressText');
+            const completionMessage = document.getElementById('completionMessage');
+            
+            progressBar.style.width = percentage + '%';
+            progressBar.textContent = Math.round(percentage) + '%';
+            progressText.textContent = `${completed} of ${total} steps completed`;
+            
+            if (completed === total) {
+                completionMessage.classList.add('show');
+            } else {
+                completionMessage.classList.remove('show');
+            }
+        }
+    </script>
+</body>
+</html>
